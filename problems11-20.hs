@@ -24,6 +24,14 @@ problem15 = choose 40 20
 problem16 = power2sum 1000
     where power2sum n = sum $ map digitToInt $ show (2^n)
 
+problem18 = do
+    inFile <- readFile "p18.dat"
+    print $ maxPathSum (read inFile :: [[Int]])
+    where
+        maxPathSum = head . foldr1 step
+        step [] [z] = [z]
+        step (x:xs) (y:z:zs) = x + max y z : step xs (z:zs)
+
 problem20 = facSum 100
     where facSum n = sum $ map digitToInt $ show (fac n)
           fac n    = product [1..n]
