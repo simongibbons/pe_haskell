@@ -6,7 +6,7 @@ import Data.Time.Calendar
 import Data.Time.Calendar.WeekDate
 
 problem13 = do
-    inList <- readFile "p13.dat"
+    inList <- readFile "data/p13.dat"
     print $ take 10 $ show $ sum $ createIntList inList
         where
             createIntList :: String -> [Integer]
@@ -26,7 +26,7 @@ problem16 = power2sum 1000
     where power2sum n = sum $ map digitToInt $ show (2^n)
 
 problem18 = do
-    inFile <- readFile "p18.dat"
+    inFile <- readFile "data/p18.dat"
     print $ maxPathSum (read inFile :: [[Int]])
     where
         maxPathSum = head . foldr1 step

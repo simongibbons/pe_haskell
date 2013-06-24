@@ -34,7 +34,7 @@ problem6 = (sum [1..100])^2 - sum ( map (^2) [1..100] )
 problem7 = primesToLimit 500000 !! 10000
 
 problem8 = do
-    inFile <- readFile "p8.dat"
+    inFile <- readFile "data/p8.dat"
     let number = read inFile :: Integer
     let productsList = findProducts (show number)
     print $ maximum productsList

@@ -1,7 +1,7 @@
 import Data.Char
 
 problem42 = do
-    fileIn <- readFile "p42.dat"
+    fileIn <- readFile "data/p42.dat"
     let wordSums = map sumWord (read fileIn :: [String])
     let triNos = triangularToN $ maximum wordSums
     print $ length $ filter (\x -> x `elem` triNos) wordSums

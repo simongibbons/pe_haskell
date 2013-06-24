@@ -4,7 +4,7 @@ problem63 = sum $ takeWhile (\x -> numNdigitNthPower x > 0) [numNdigitNthPower x
         numNdigitNthPower n = length $ filter (\x -> ((length $ show (x^n)) == n) ) $ getPowerNos n
 
 problem67 = do
-    inFile <- readFile "p67.dat"
+    inFile <- readFile "data/p67.dat"
     print $ maxPathSum (read inFile :: [[Int]])
     where
         maxPathSum = head . foldr1 step

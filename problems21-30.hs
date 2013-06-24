@@ -2,7 +2,7 @@ import Data.List
 import Data.Char
 
 problem22 = do
-    inFile <- readFile "p22.dat"
+    inFile <- readFile "data/p22.dat"
     let nameVals = map sumName $ sort $ (read inFile :: [String])
     print $ sum [ (n+1) * (nameVals !! n) | n<-[0..(length nameVals - 1)]]
     where
