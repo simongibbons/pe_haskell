@@ -1,6 +1,13 @@
 import Data.List
 import Data.Char
 
+problem22 = do
+    inFile <- readFile "p22.dat"
+    let nameVals = map sumName $ sort $ (read inFile :: [String])
+    print $ sum [ (n+1) * (nameVals !! n) | n<-[0..(length nameVals - 1)]]
+    where
+        sumName name = sum $ map (\x -> (ord x) - 64) name
+
 problem25 = head [x+1 | x<-[1..], (length $ show $ fib $ x) == 1000 ]
     where fib :: Int -> Integer
           fib = (map fib_base [0 ..] !!)
