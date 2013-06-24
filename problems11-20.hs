@@ -1,8 +1,9 @@
 import Data.Char
-import System.IO
 import Data.List
 import Data.Text (splitOn)
 import Data.Ord (comparing)
+import Data.Time.Calendar
+import Data.Time.Calendar.WeekDate
 
 problem13 = do
     inList <- readFile "p13.dat"
@@ -31,6 +32,12 @@ problem18 = do
         maxPathSum = head . foldr1 step
         step [] [z] = [z]
         step (x:xs) (y:z:zs) = x + max y z : step xs (z:zs)
+
+problem19 = length [() | y <- [1901..2000], 
+                             m <- [1..12],
+                             let (_, _, d) = toWeekDate $ fromGregorian y m 1,
+                             d == 7]
+
 
 problem20 = facSum 100
     where facSum n = sum $ map digitToInt $ show (fac n)
