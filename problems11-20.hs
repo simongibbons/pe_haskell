@@ -1,6 +1,15 @@
 import Data.Char
+import System.IO
 import Data.List
+import Data.Text (splitOn)
 import Data.Ord (comparing)
+
+problem13 = do
+    inList <- readFile "p13.dat"
+    print $ take 10 $ show $ sum $ createIntList inList
+        where
+            createIntList :: String -> [Integer]
+            createIntList input = map read $ lines input
 
 problem14 = maximumBy (comparing snd) [(x, chainLength x) | x<-[1..1000000] ]
     where chainLength :: Int -> Int
