@@ -8,6 +8,8 @@ problem22 = do
     where
         sumName name = sum $ map (\x -> (ord x) - 64) name
 
+problem24 = (sort $ permutations [0,1,2,3,4,5,6,7,8,9] ) !! 999999
+
 problem25 = head [x+1 | x<-[1..], (length $ show $ fib $ x) == 1000 ]
     where fib :: Int -> Integer
           fib = (map fib_base [0 ..] !!)
