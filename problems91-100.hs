@@ -11,4 +11,3 @@ problem99 = do
             createIntTuples :: String -> [(Double, Double)]
             createIntTuples input = map read $ lines input
             findIndex val x = head ( filter ( (==val) . (x!!) ) [0..((length x) - 1)] )
- 
