@@ -3,6 +3,11 @@ import Data.List
 import Data.Bits (xor)
 import Data.Ord (comparing)
 
+problem53 = length $ [1| x<-[1..100], y<-[1..x], (choose x y) > 1000000]
+    where choose n k = fac n `div` (fac (n-k) * fac k)
+          fac 0 = 1
+          fac x = product [1..x]
+
 problem56 = maximum $ [digitSum (a^b)| a<-[1..99], b<-[1..99] ]
     where digitSum n = sum $ map (digitToInt) (show n)
 
