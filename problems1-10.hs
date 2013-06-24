@@ -7,7 +7,7 @@ problem2 = sum [x | x <-takeWhile (<4000000) $ map fib [1..], even x]
           fib_base 1 = 1
           fib_base n = fib (n-2) + fib (n-1)
 
-problem4 = maximum $ [a*b| a<-[100..999], b<-[100..999], (reverse $ show (a*b) ) == (show (a*b))]
+problem4 = maximum $ [a*b| a<-[100..999], b<-[a..999], (reverse $ show (a*b) ) == (show (a*b))]
 
 problem6 = (sum [1..100])^2 - sum ( map (^2) [1..100] )
 
