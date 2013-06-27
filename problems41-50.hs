@@ -9,6 +9,13 @@ problem42 = do
         sumWord word = sum $ map (\x -> (ord x) - 64) word
         triangularToN n = takeWhile (<n) $ map (\x -> x*(x+1) `div` 2) [1..]
 
+problem44 = head [abs(x-y) | x<-pents, y<-pents, isPent (x+y), isPent (abs(x-y))]
+    where isPent n =
+            let (ai, af) = properFraction . sqrt $ 1 + 24 * (fromInteger n)
+            in  (af == 0) && ai `mod` 6 == 5
+
+          pents = [n*(3*n-1) `div` 2 | n<-[1..2500] ]
+
 problem_45 = head [x | x <- scanl (+) 1 [5,9..], x > 40755, isPent x]
     where isPent n =
             let (ai, af) = properFraction . sqrt $ 1 + 24 * (fromInteger n)
