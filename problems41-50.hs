@@ -9,4 +9,9 @@ problem42 = do
         sumWord word = sum $ map (\x -> (ord x) - 64) word
         triangularToN n = takeWhile (<n) $ map (\x -> x*(x+1) `div` 2) [1..]
 
+problem_45 = head [x | x <- scanl (+) 1 [5,9..], x > 40755, isPent x]
+    where isPent n =
+            let (ai, af) = properFraction . sqrt $ 1 + 24 * (fromInteger n)
+            in  (af == 0) && ai `mod` 6 == 5
+
 problem48 = ( sum $ [x^x `mod` (10^10) | x<-[1..1000] ] ) `mod` (10^10)
