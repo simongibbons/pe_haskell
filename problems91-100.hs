@@ -20,6 +20,7 @@ problem92 = length . filter (==89) . map endNo $ [1..9999999]
         squareDig :: Int -> Int
         squareDig = sum . map ( (^2) . digitToInt ) . show
 
+problem97 = (28433 * 2^7830457 + 1) `mod` (10^10)
 
 problem99 = do
     inList <- readFile "data/p99.dat"
