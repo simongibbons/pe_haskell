@@ -9,7 +9,7 @@ problem42 = do
         sumWord word = sum $ map (\x -> (ord x) - 64) word
         triangularToN n = takeWhile (<n) $ map (\x -> x*(x+1) `div` 2) [1..]
 
-problem44 = head [abs(x-y) | x<-pents, y<-pents, isPent (x+y), isPent (abs(x-y))]
+problem44 = head [x-y | x<-pents, y<-takeWhile (<x) pents, isPent (x+y), isPent (x-y)]
     where isPent n =
             let (ai, af) = properFraction . sqrt $ 1 + 24 * (fromInteger n)
             in  (af == 0) && ai `mod` 6 == 5
