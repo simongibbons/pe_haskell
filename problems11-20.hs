@@ -34,12 +34,19 @@ problem17 = sum $ map ( length . letters ) [1..1000]
 
         letters x
             | x == 0        = []
+
             | x < 20        = ones !! (x-1)
-            | x < 100       = tys !! ( (x `div` 10) - 2 ) ++  letters (x - (x `div` 10) * 10)
-            | x < 1000 && (x `mod` 100) == 0 
+
+            | x < 100       = tys !! ( (x `div` 10) - 2 ) ++
+                              letters (x - (x `div` 10) * 10)
+
+            | x < 1000 && (x `mod` 100) == 0
                             = ones !! ( (x `div` 100 ) -1 ) ++ "hundred"
+
             | x > 100 && x <= 999
-                            = ones !! ( (x `div` 100 ) -1 ) ++ "hundredand" ++ letters (x - (x `div` 100) * 100)
+                            = ones !! ( (x `div` 100 ) -1 ) ++ "hundredand" ++
+                                letters (x - (x `div` 100) * 100)
+
             | x == 1000     = "onethousand"
 
 problem18 = do
@@ -54,7 +61,6 @@ problem19 = length [() | y <- [1901..2000],
                              m <- [1..12],
                              let (_, _, d) = toWeekDate $ fromGregorian y m 1,
                              d == 7]
-
 
 problem20 = facSum 100
     where facSum n = sum $ map digitToInt $ show (fac n)
