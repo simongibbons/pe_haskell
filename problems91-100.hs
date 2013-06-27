@@ -2,18 +2,23 @@ import Data.Ord (comparing)
 import Data.List
 import Data.Char
 
---Should Memoize This to improve the speed.
-problem92 = length [1 | x<-[1..9999999], (endNo x) == 89 ]
+problem92 = length . filter (==89) . map endNo $ [1..9999999]
     where
         endNo :: Int -> Int
-        endNo 89 = 89
-        endNo 1 = 1
-        endNo n = endNo $ squareDig n
+        endNo n = endNo_precalc !! (squareDig n)
+
+        endNo_precalc :: [Int]
+        endNo_precalc = [endNo_recurse x | x<-[0..567]]
+
+        endNo_recurse :: Int -> Int
+        endNo_recurse n
+                | n == 89   = 89
+                | n == 1    = 1
+                | n == 0    = 0
+                | otherwise = endNo_recurse $ squareDig n
 
         squareDig :: Int -> Int
-        squareDig n = sum $ map (^2) $ digits n
-
-        digits = map (`mod` 10) . reverse . takeWhile (> 0) . iterate (`div` 10)
+        squareDig = sum . map ( (^2) . digitToInt ) . show
 
 
 problem99 = do
