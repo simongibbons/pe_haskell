@@ -15,6 +15,13 @@ problem34 = sum [x | x<-[3..100000], isFacOfDig x]
           fac n = fac_list !! n
           fac_list = [1] ++ [ product [1..y] | y<-[1..9]]
 
+problem38 = maximum [read y :: Int | x<-[1..10000], y<-[makeNo x 1 [] ], isPan y ]
+    where makeNo x n res
+              | length (concat res) >= 9 = (concat res)
+              | otherwise                = makeNo x (n+1) (res ++ [show (n*x)])
+
+          isPan x = (sort x) == "123456789"
+
 problem39 = maximumBy (comparing snd) [(p, numRightTris p) | p<-[12,14..1000]]
     where numRightTris p = length [1| c<-[1..(p`div`2)], b<-[1..(p-c-1)], a<-[(p-c-b)], a^2 + b^2 == c^2]
 
