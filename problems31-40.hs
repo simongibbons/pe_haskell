@@ -3,7 +3,7 @@ import Data.Ord (comparing)
 import qualified Data.Set as Set
 import Data.List
 
-primesToLimit :: Integer -> [Integer]
+primesToLimit :: Int -> [Int]
 primesToLimit m = 2 : sieve [3,5..m]
   where
     sieve (p:xs)
@@ -15,6 +15,21 @@ problem34 = sum [x | x<-[3..100000], isFacOfDig x]
     where isFacOfDig x = x == (sum $ map (fac . digitToInt) (show x))
           fac n = fac_list !! n
           fac_list = [1] ++ [ product [1..y] | y<-[1..9]]
+
+problem35 = length $ filter (isCircPrime) $ takeWhile (<1000000) (Set.toAscList primes)
+    where primes = Set.fromDistinctAscList $ primesToLimit 1000000
+
+          isCircPrime x = ( foldr1 (&&) $ map (`Set.member` primes) $ digitRotations x ) && ( '0' `notElem` (show x) )
+
+          digitRotations x = digitRotations_base x (length.show $ x) []
+
+          digitRotations_base x n res
+                    | n == 0    = res
+                    | otherwise = let y = rotateDigits x
+                                  in digitRotations_base y (n-1) ([y] ++ res)
+
+          rotateDigits :: Int -> Int
+          rotateDigits x = read $ (tail (show x) ) ++ [ head ( show x ) ]
 
 problem37 = sum $ drop 4 [x | x<-(Set.toAscList primes), isRightTrunc x, isLeftTrunc x]
     where primes = Set.fromDistinctAscList $ primesToLimit 1000000
