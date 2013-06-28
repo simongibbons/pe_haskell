@@ -27,8 +27,6 @@ problem37 = sum $ drop 4 [x | x<-(Set.toAscList primes), isRightTrunc x, isLeftT
           cutLeft x = x `mod` (10^((length.show $ x) - 1 ))
 
 
-power10 x = floor ((log x) / (log 10))  
-
 problem38 = maximum [read y :: Int | x<-[1..10000], y<-[makeNo x 1 [] ], isPan y ]
     where makeNo x n res
               | length (concat res) >= 9 = (concat res)
