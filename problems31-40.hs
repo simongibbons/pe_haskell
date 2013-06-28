@@ -19,17 +19,27 @@ problem34 = sum [x | x<-[3..100000], isFacOfDig x]
 problem35 = length $ filter (isCircPrime) $ takeWhile (<1000000) (Set.toAscList primes)
     where primes = Set.fromDistinctAscList $ primesToLimit 1000000
 
-          isCircPrime x = ( foldr1 (&&) $ map (`Set.member` primes) $ digitRotations x ) && ( '0' `notElem` (show x) )
+          isCircPrime x = ( foldr1 (&&) $ map (`Set.member` primes) $ digitRotations x ) &&
+                          ( '0' `notElem` (show x) )
 
           digitRotations x = digitRotations_base x (length.show $ x) []
 
           digitRotations_base x n res
                     | n == 0    = res
                     | otherwise = let y = rotateDigits x
-                                  in digitRotations_base y (n-1) ([y] ++ res)
+                                  in digitRotations_base y (n-1) (y:res)
 
           rotateDigits :: Int -> Int
           rotateDigits x = read $ (tail (show x) ) ++ [ head ( show x ) ]
+
+problem36 = sum $ filter (\x -> (isPal (show x) ) && (isPal (toBin x) ) ) [1..1000000]
+    where toBin 0 = []
+          toBin n = reverse $ helper n
+
+          helper 0 = []
+          helper n = let (q,r) = n `divMod` 2 in r : helper q
+
+          isPal s = s == (reverse s)
 
 problem37 = sum $ drop 4 [x | x<-(Set.toAscList primes), isRightTrunc x, isLeftTrunc x]
     where primes = Set.fromDistinctAscList $ primesToLimit 1000000
