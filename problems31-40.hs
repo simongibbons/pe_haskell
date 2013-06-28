@@ -1,5 +1,6 @@
 import Data.Char (digitToInt)
 import Data.Ord (comparing)
+import qualified Data.Set as Set
 import Data.List
 
 primesToLimit :: Integer -> [Integer]
@@ -14,6 +15,19 @@ problem34 = sum [x | x<-[3..100000], isFacOfDig x]
     where isFacOfDig x = x == (sum $ map (fac . digitToInt) (show x))
           fac n = fac_list !! n
           fac_list = [1] ++ [ product [1..y] | y<-[1..9]]
+
+problem37 = sum $ drop 4 [x | x<-(Set.toAscList primes), isRightTrunc x, isLeftTrunc x]
+    where primes = Set.fromDistinctAscList $ primesToLimit 1000000
+          isRightTrunc 0 = True
+          isRightTrunc x = (x `Set.member` primes ) && ( isRightTrunc (x `div` 10) )
+
+          isLeftTrunc 0 = True
+          isLeftTrunc x = (x `Set.member` primes ) && ( isLeftTrunc (cutLeft x) )
+
+          cutLeft x = x `mod` (10^((length.show $ x) - 1 ))
+
+
+power10 x = floor ((log x) / (log 10))  
 
 problem38 = maximum [read y :: Int | x<-[1..10000], y<-[makeNo x 1 [] ], isPan y ]
     where makeNo x n res
