@@ -10,6 +10,9 @@ primesToLimit m = 2 : sieve [3,5..m]
       | p*p > m = p : xs
       | True    = p : sieve [x | x <- xs, rem x p /= 0]
 
+-- This is really not optimal but it works!
+problem32 = sum $ nub $ [x*y| x<-[1..5000], y<-[x..5000], isPan x y ]
+    where isPan x y = (sort $ concat $ map show [x,y,x*y]) == "123456789"
 
 problem34 = sum [x | x<-[3..100000], isFacOfDig x]
     where isFacOfDig x = x == (sum $ map (fac . digitToInt) (show x))
