@@ -33,7 +33,7 @@ problem80 = sum $ [sqrtSum x | x<-[1..100], x `notElem` squareNos]
                                              then intSqrt' n guess ubound
                                              else intSqrt' n lbound guess
 
-          sqrtSum x = let m =(show $ intSqrt' (x*10^(202)) 0 (10^404))
-                      in  sum $ map (digitToInt) $ [m!!n | n<-[0..99]]
+          sqrtSum x = let m =(show $ intSqrt' (x*10^(202)) 0 (x*10^204))
+                      in  sum $ map (digitToInt) $ take 100 m
 
           squareNos = takeWhile (<101) $ map (^2) [1..]
