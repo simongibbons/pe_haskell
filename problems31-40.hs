@@ -2,6 +2,7 @@ import Data.Char (digitToInt)
 import Data.Ord (comparing)
 import qualified Data.Set as Set
 import Data.List
+import qualified Data.Ratio as R
 
 primesToLimit :: Int -> [Int]
 primesToLimit m = 2 : sieve [3,5..m]
@@ -13,6 +14,24 @@ primesToLimit m = 2 : sieve [3,5..m]
 -- This is really not optimal but it works!
 problem32 = sum $ nub $ [x*y| x<-[1..5000], y<-[x..5000], isPan x y ]
     where isPan x y = (sort $ concat $ map show [x,y,x*y]) == "123456789"
+
+problem33 = (R.denominator . product)[ a R.% b | b<-[10..99], a<-[10..(b-1)],
+                                                 areEqual (a,b) (crossOff a b),
+                                                 a `mod` 10 /= 0, b `mod` 10 /= 0]
+    where
+        crossOff a b = let x = show a
+                           y = show b
+                       in case () of
+                       _ | x!!0 == y!!0 -> (digitToInt (x!!1), digitToInt (y!!1))
+                         | x!!0 == y!!1 -> (digitToInt (x!!1), digitToInt (y!!0))
+                         | x!!1 == y!!0 -> (digitToInt (x!!0), digitToInt (y!!1))
+                         | x!!1 == y!!1 -> (digitToInt (x!!0), digitToInt (y!!0))
+                         | otherwise    -> (0,1)
+
+        areEqual (a,b) (c,d)
+            | b == 0    = False
+            | d == 0    = False
+            | otherwise = (a R.% b) == (c R.% d)
 
 problem34 = sum [x | x<-[3..100000], isFacOfDig x]
     where isFacOfDig x = x == (sum $ map (fac . digitToInt) (show x))
