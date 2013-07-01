@@ -20,6 +20,20 @@ problem74 = length $ filter (==60) $ map (loopLength) [3..999999]
 
           fac x = product [1..x]
 
-main = print problem74
-
 problem79 = 73162890 --By Hand!
+
+problem80 = sum $ [sqrtSum x | x<-[1..100], x `notElem` squareNos]
+    where intSqrt' :: Integer -> Integer -> Integer -> Integer
+          --Computes the sqrt of a large integer by bisection
+          intSqrt' n lbound ubound = let guess = (lbound + ubound) `div` 2 in
+                                         if abs( lbound - guess ) < 1
+                                         then lbound
+                                         else
+                                             if guess*guess < n
+                                             then intSqrt' n guess ubound
+                                             else intSqrt' n lbound guess
+
+          sqrtSum x = let m =(show $ intSqrt' (x*10^(202)) 0 (10^404))
+                      in  sum $ map (digitToInt) $ [m!!n | n<-[0..99]]
+
+          squareNos = takeWhile (<101) $ map (^2) [1..]
