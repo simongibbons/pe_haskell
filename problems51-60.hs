@@ -3,6 +3,12 @@ import Data.List
 import Data.Bits (xor)
 import Data.Ord (comparing)
 
+problem52 = head $ [x | x<-testNos, sameDig x (2*x), sameDig x (3*x), sameDig x (4*x),
+                                    sameDig x (5*x), sameDig x (6*x)]
+    where getNosToTest n = takeWhile (<(17 * 10^n)) [10^(n+1)..]
+          sameDig x n = (sort.show) x == (sort.show) n
+          testNos = concatMap getNosToTest [1..]
+
 problem53 = length $ [1| x<-[1..100], y<-[1..x], (choose x y) > 1000000]
     where choose n k = fac n `div` (fac (n-k) * fac k)
           fac 0 = 1
