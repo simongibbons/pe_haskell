@@ -17,6 +17,29 @@ problem53 = length $ [1| x<-[1..100], y<-[1..x], (choose x y) > 1000000]
 problem56 = maximum $ [digitSum (a^b)| a<-[1..99], b<-[1..99] ]
     where digitSum n = sum $ map (digitToInt) (show n)
 
+problem57 = length $ filter (numGreaterThanDenom) $ map sqrt2Convergent [1..1000]
+    where numGreaterThanDenom (a,b) = (length.show) a > (length.show) b
+
+          reduceFraction n d = let x = gcd n d
+                      in case () of
+                       _ | x == 1    -> (n,d)
+                         | otherwise -> reduceFraction (n `div` x) (d `div` x)
+
+          sqrt2Convergent n = let d = (denominator (n+2)) in
+                              reduceFraction (numerator (n+2) - d) d
+
+          numerator = (map numerator' [0..]!!)
+          numerator' n
+              | n == 0 = 0
+              | n == 1 = 1
+              | otherwise = 2 * (numerator (n-1) ) + (numerator (n-2) )
+
+          denominator = (map denominator' [0..]!!)
+          denominator' n
+              | n == 0    = 1
+              | n == 1    = 0
+              | otherwise = 2 *(denominator (n-1) ) + (denominator (n-2) )
+
 problem59 = do
     inFile <- readFile "p59.dat"
     let ctext = read inFile :: [Int]
