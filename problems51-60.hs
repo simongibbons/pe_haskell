@@ -14,6 +14,22 @@ problem53 = length $ [1| x<-[1..100], y<-[1..x], (choose x y) > 1000000]
           fac 0 = 1
           fac x = product [1..x]
 
+problem55 = length $ filter (isLyr) [1..10000]
+    where
+        isPal x = let s = show x in s == reverse s
+
+        revAdd x = x + revNum x
+
+        revNum :: Integer -> Integer
+        revNum x = (read.reverse.show) x
+
+        isLyr x = isLyr' (revAdd x) 49
+
+        isLyr' x iter
+            | iter == 0 = True
+            | isPal x   = False
+            | otherwise = isLyr' (revAdd x) (iter -1)
+
 problem56 = maximum $ [digitSum (a^b)| a<-[1..99], b<-[1..99] ]
     where digitSum n = sum $ map (digitToInt) (show n)
 
