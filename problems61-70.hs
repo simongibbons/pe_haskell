@@ -1,4 +1,5 @@
-import Data.List (sort, groupBy, sortBy, minimumBy)
+import Data.List (sort, groupBy, sortBy, minimumBy, maximumBy)
+import Math.NumberTheory.Primes.Factorisation (totient)
 import Data.Ord (comparing)
 
 problem62 = snd $ minimumBy (comparing snd) $
@@ -25,3 +26,7 @@ problem67 = do
         step [] [z] = [z]
         step (x:xs) (y:z:zs) = x + max y z : step xs (z:zs)
 
+problem69 = snd $ maximumBy (comparing fst) $ map (\x -> (f x, x)) [1..1000000]
+  where
+     f :: Integer -> Double
+     f n = (fromIntegral n) / ( fromIntegral (totient n))
