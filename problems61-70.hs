@@ -30,3 +30,13 @@ problem69 = snd $ maximumBy (comparing fst) $ map (\x -> (f x, x)) [1..1000000]
   where
      f :: Integer -> Double
      f n = (fromIntegral n) / ( fromIntegral (totient n))
+
+--Very Slow (runs in ~50s) Needs improving at some point.
+problem70 = fst $ minimumBy (comparing snd) $ map (\x -> (fst x, ratio x)) permList
+  where
+    permList = filter (\(x,y) -> isPerm x y) $ zip [2..10^7] (map totient [2..10^7])
+
+    isPerm x y = ((sort.show) x) == ((sort.show) y)
+
+    ratio (x,y) = (fromIntegral x) / (fromIntegral y)
+
