@@ -4,6 +4,10 @@ import Data.Text (splitOn)
 import Data.Ord (comparing)
 import Data.Time.Calendar
 import Data.Time.Calendar.WeekDate
+import Math.NumberTheory.Primes.Factorisation (divisorCount)
+
+problem12 = head $ dropWhile (\x -> divisorCount x < 500) $ map tri [1..]
+  where tri n = n*(n+1) `div` 2
 
 problem13 = do
     inList <- readFile "data/p13.dat"
