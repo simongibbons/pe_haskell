@@ -11,6 +11,18 @@ primesToLimit m = 2 : sieve [3,5..m]
       | True    = p : sieve [x | x <- xs, rem x p /= 0]
 
 
+problem21 = sum $ filter hasPair [1..10000]
+    where hasPair :: Int -> Bool
+          hasPair x = (y /= d) && (x == y)
+            where d = divs !! x
+                  y = divs !! d
+
+          divs :: [Int]
+          divs = 0:(map sumPropDivs [1..])
+
+          sumPropDivs :: Int -> Int
+          sumPropDivs n = (sum.(filter (\x -> mod n x == 0))) [1..(n-1)]
+
 problem22 = do
     inFile <- readFile "data/p22.dat"
     let nameVals = map sumName $ sort $ (read inFile :: [String])
@@ -37,3 +49,6 @@ problem30 = sum $ [x | x<-[2..(6*9^5)], isFifthPowerSum x ]
     where isFifthPowerSum x = x == (sum $ map (fifthPower . digitToInt) (show x))
           fifthPower n = fifthPower_list !! n
           fifthPower_list = map (^5) [0..9]
+
+
+
