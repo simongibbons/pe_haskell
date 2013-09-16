@@ -1,7 +1,8 @@
 import Data.Char
 import qualified Data.Set as Set
 import Math.NumberTheory.Primes.Sieve (primes)
-import Data.List (sort)
+import Data.List (groupBy, sortBy, sort, group)
+import Data.Ord (comparing)
 
 primesToLimit :: Integer -> [Integer]
 primesToLimit m = 2 : sieve [3,5..m]
@@ -58,3 +59,19 @@ problem46 = head $ filter (isNotPrime) $ filter (isCounterExample) [3,5..]
                 | otherwise             = isCounterExample' x (n+1)
 
 problem48 = ( sum $ [x^x `mod` (10^10) | x<-[1..1000] ] ) `mod` (10^10)
+
+problem49 = concatMap findGroups $ primePerms
+  where findGroups :: [Integer] -> [(Integer, Integer, Integer)]
+        findGroups x = [(a,b,2*b-a)| a <- x,
+                                     b <- dropWhile (<=a) x,
+                                     (2*b - a) `elem` x ]
+
+        primePerms = filter (\x -> length x >= 3) $ findPerms primeList
+
+        findPerms :: [Integer] -> [[Integer]]
+        findPerms x = permList
+          where sortedList  = sortBy (comparing fst) $ zip ( map (sort.show) x ) x
+                groupedList = groupBy (\p q -> fst p == fst q) sortedList
+                permList    = map (map snd) groupedList
+
+        primeList = takeWhile (<10000) $ dropWhile (<1000) primes
