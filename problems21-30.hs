@@ -21,7 +21,7 @@ problem21 = sum $ filter hasPair [1..10000]
           divs = 0:(map sumPropDivs [1..])
 
           sumPropDivs :: Int -> Int
-          sumPropDivs n = (sum.(filter (\x -> mod n x == 0))) [1..(n-1)]
+          sumPropDivs n = sum $ filter (\x -> mod n x == 0) [1..(n-1)]
 
 problem22 = do
     inFile <- readFile "data/p22.dat"
