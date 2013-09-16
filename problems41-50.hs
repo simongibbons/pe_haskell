@@ -1,5 +1,7 @@
 import Data.Char
 import qualified Data.Set as Set
+import Math.NumberTheory.Primes.Sieve (primes)
+import Data.List (sort)
 
 primesToLimit :: Integer -> [Integer]
 primesToLimit m = 2 : sieve [3,5..m]
@@ -7,6 +9,22 @@ primesToLimit m = 2 : sieve [3,5..m]
     sieve (p:xs)
       | p*p > m = p : xs
       | True    = p : sieve [x | x <- xs, rem x p /= 0]
+
+
+
+problem41 = maximum $ filter isPan $ takeWhile (<10^8) primes
+  where
+    isPan :: Integer -> Bool
+    isPan x | l == 1    = s == "1"
+            | l == 2    = s == "12"
+            | l == 3    = s == "123"
+            | l == 4    = s == "1234"
+            | l == 5    = s == "12345"
+            | l == 6    = s == "123456"
+            | l == 7    = s == "1234567"
+            | otherwise = False
+        where s = (sort.show) x
+              l = length s
 
 problem42 = do
     fileIn <- readFile "data/p42.dat"
