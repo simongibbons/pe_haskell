@@ -1,3 +1,17 @@
+import Data.List (sort, groupBy, sortBy, minimumBy)
+import Data.Ord (comparing)
+
+problem62 = snd $ minimumBy (comparing snd) $
+            concat.(filter (\x -> length x == 5)) $
+            groupBy (\x y -> fst x == fst y) $
+            sortedList 12
+    where
+      cubeList n = zip (map (sort.show) cubes) cubes
+        where cubes = takeWhile (<10^n) $ dropWhile (<10^(n-1)) $ map (^3) [1..]
+
+      sortedList x = sortBy (comparing fst) $ cubeList x
+
+
 problem63 = sum $ takeWhile (\x -> numNdigitNthPower x > 0) [numNdigitNthPower x | x<-[1..]]
     where
         getPowerNos n = takeWhile (\x -> (length $ show (x^n)) <= n) [1..]
