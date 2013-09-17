@@ -1,6 +1,7 @@
 import Data.Char
 import qualified Data.Set as Set
 import Math.NumberTheory.Primes.Sieve (primes)
+import Math.NumberTheory.Primes.Factorisation (factorise)
 import Data.List (groupBy, sortBy, sort, group)
 import Data.Ord (comparing)
 
@@ -57,6 +58,17 @@ problem46 = head $ filter (isNotPrime) $ filter (isCounterExample) [3,5..]
                 | (x - (2*n^2)) < 2     = True
                 | isPrime (x - (2*n^2)) = False
                 | otherwise             = isCounterExample' x (n+1)
+
+problem47 = ((map snd).head) $
+            filter (\x -> length x >= nConsec && (fst.head) x == nFactors) $
+            groupBy (\x y -> fst x == fst y) $
+            (map (\x -> (numPrimeFactors x, x) ) [1..])
+    where
+        numPrimeFactors :: Integer -> Int
+        numPrimeFactors = (length.factorise)
+
+        nFactors = 4
+        nConsec  = 4
 
 problem48 = ( sum $ [x^x `mod` (10^10) | x<-[1..1000] ] ) `mod` (10^10)
 
