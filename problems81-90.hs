@@ -15,10 +15,8 @@ primesToLimit m = 2 : sieve [3,5..m]
 problem85 = minimumBy (comparing snd)
             [(n*m, abs ( (numRecs n m) - 2*10^6))| n<-[1..100], m<-[1..n]  ]
   where
-    fac n = product [1..n]
-    choose n k = (fac n) `div` ((fac k) * (fac (n-k)))
-
-    numRecs n m = (choose (n+1) 2) * (choose (m+1) 2)
+    tri n = n*(n+1) `div` 2 -- (n-1) choose 2
+    numRecs n m = (tri n) * (tri m)
 
 -- Find the number of numbers expressible as the sum of a prime square, cube
 -- and fourth power below 50 million.
