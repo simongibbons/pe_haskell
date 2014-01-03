@@ -11,9 +11,9 @@ primesToLimit m = 2 : sieve [3,5..m]
 -- Find the number of numbers expressible as the sum of a prime square, cube
 -- and fourth power below 50 million.
 problem87 = Set.size $ Set.fromList $
-            filter (<limit) [a+b+c | a<-prime4,
-                                     b<-(takeWhile (<limit-a) prime3),
-                                     c<-(takeWhile (<=limit-a-b) prime2)]
+            [a + b + c| a<-prime4,
+                        b<-(takeWhile (<limit-a) prime3),
+                        c<-(takeWhile (<=limit-a-b) prime2) ]
   where
     limit = 50000000
     primes = primesToLimit 7071
@@ -55,3 +55,4 @@ problem89 = do
             romMap = M.fromList $ zip ['I','V','X','L','C','D','M'] [1,5,10,50,100,500,1000]
 
             romToInt x = romMap M.! x
+
