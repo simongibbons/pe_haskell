@@ -1,6 +1,8 @@
 import Data.List (sort, groupBy, sortBy, minimumBy, maximumBy)
 import Math.NumberTheory.Primes.Factorisation (totient)
 import Data.Ord (comparing)
+import Data.Ratio
+import Data.Char (digitToInt)
 
 problem62 = snd $ minimumBy (comparing snd) $
             concat.(filter (\x -> length x == 5)) $
@@ -17,6 +19,17 @@ problem63 = sum $ takeWhile (\x -> numNdigitNthPower x > 0) [numNdigitNthPower x
     where
         getPowerNos n = takeWhile (\x -> (length $ show (x^n)) <= n) [1..]
         numNdigitNthPower n = length $ filter (\x -> ((length $ show (x^n)) == n) ) $ getPowerNos n
+
+-- Find the Sum of the Digits in the Numerator of the 100th convergent of e
+problem65 = sum $ map digitToInt . show $ numerator $ frac ( take 100 eFracRep )
+  where
+    frac :: Integral a => [a] -> Ratio a
+    frac (x:[]) = x % 1
+    frac (x:xs) = (x % 1) + (1 / (frac xs))
+
+    eFracRep = 2:(map eFracRep' [0..])
+    eFracRep' n | (n `mod` 3 - 1) == 0 = 2 * ( n `div` 3 + 1)
+                | otherwise            = 1
 
 problem67 = do
     inFile <- readFile "data/p67.dat"
