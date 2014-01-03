@@ -20,6 +20,29 @@ problem63 = sum $ takeWhile (\x -> numNdigitNthPower x > 0) [numNdigitNthPower x
         getPowerNos n = takeWhile (\x -> (length $ show (x^n)) <= n) [1..]
         numNdigitNthPower n = length $ filter (\x -> ((length $ show (x^n)) == n) ) $ getPowerNos n
 
+-- How Many squareroots of n <= 10000 have continued fraction representations 
+-- of odd periods.
+problem64 = length $ filter (\x -> (length x) `mod` 2 == 0 ) $ map cfSqrt [1..10000]
+  where
+    --Determine the Continued Fraction Representation of a square root
+    cfSqrt :: Int -> [Int]
+    cfSqrt n | isSquare n = [floor $ sqrt $ (fromIntegral n::Double)]
+             | otherwise  = cfSqrt' n 0 1
+      where
+        cfSqrt' :: Int -> Int -> Int -> [Int]
+        cfSqrt' r n d = m : end
+          where
+            m = (truncate (sqrt (fromIntegral r)) + n) `div` d
+            a = d * m - n
+
+            --Detect if we are at the end of a repeating cycle
+            end | d == 1 && n /= 0 = []
+                | otherwise        = cfSqrt' r a ((r - a ^ 2) `div` d)
+
+        isSquare :: Int -> Bool
+        isSquare n = sq * sq == n
+          where sq = floor $ sqrt $ (fromIntegral n::Double)
+
 -- Find the Sum of the Digits in the Numerator of the 100th convergent of e
 problem65 = sum $ map digitToInt . show $ numerator $ frac ( take 100 eFracRep )
   where
