@@ -54,6 +54,41 @@ problem65 = sum $ map digitToInt . show $ numerator $ frac ( take 100 eFracRep )
     eFracRep' n | (n `mod` 3 - 1) == 0 = 2 * ( n `div` 3 + 1)
                 | otherwise            = 1
 
+-- Find the minimum solution to Pell's equation for D <= 1000
+-- Uses the method of continued fractions as found on the
+-- wikipedia page
+problem66 = maximumBy (comparing snd) $
+            map (\x -> (x, minPellSolution x) ) $
+            filter (isNotSquare) [2..1000]
+  where
+    isPellSolution :: Integer -> Integer -> Integer -> Bool
+    isPellSolution x y d = x^2 - d*y^2 == 1
+
+    frac :: Integral a => [a] -> Ratio a
+    frac (x:[]) = x % 1
+    frac (x:xs) = (x % 1) + (1 / (frac xs))
+
+    cfSqrtList :: Integer -> [[Integer]]
+    cfSqrtList n = map (\x -> take x (cfSqrt' n 0 1) ) [1..]
+
+    minPellSolution :: Integer -> Integer
+    minPellSolution d = numerator $ head $
+                        filter (\x -> isPellSolution (numerator x) (denominator x) d ) $
+                        sqrtConvergents d
+
+    sqrtConvergents :: Integer -> [Ratio Integer]
+    sqrtConvergents n = map frac (cfSqrtList n)
+
+    cfSqrt' :: Integer -> Integer -> Integer -> [Integer]
+    cfSqrt' r n d = m : cfSqrt' r a ((r - a ^ 2) `div` d)
+      where
+        m = (truncate (sqrt (fromIntegral r)) + n) `div` d
+        a = d * m - n
+
+    isNotSquare :: Integer -> Bool
+    isNotSquare n = sq * sq /= n
+      where sq = floor $ sqrt $ (fromIntegral n::Double)
+
 problem67 = do
     inFile <- readFile "data/p67.dat"
     print $ maxPathSum (read inFile :: [[Int]])
