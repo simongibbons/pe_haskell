@@ -1,5 +1,7 @@
 import qualified Data.Map as M
 import qualified Data.Set as Set
+import Data.Ord (comparing)
+import Data.List (minimumBy)
 
 primesToLimit :: Integer -> [Integer]
 primesToLimit m = 2 : sieve [3,5..m]
@@ -7,6 +9,16 @@ primesToLimit m = 2 : sieve [3,5..m]
     sieve (p:xs)
       | p*p > m = p : xs
       | True    = p : sieve [x | x <- xs, rem x p /= 0]
+
+-- Find the Area of the Rectangle with the number of rectangles closet
+-- to 2 million
+problem85 = minimumBy (comparing snd)
+            [(n*m, abs ( (numRecs n m) - 2*10^6))| n<-[1..100], m<-[1..n]  ]
+  where
+    fac n = product [1..n]
+    choose n k = (fac n) `div` ((fac k) * (fac (n-k)))
+
+    numRecs n m = (choose (n+1) 2) * (choose (m+1) 2)
 
 -- Find the number of numbers expressible as the sum of a prime square, cube
 -- and fourth power below 50 million.
