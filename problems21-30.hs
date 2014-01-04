@@ -45,13 +45,13 @@ problem25 = head [x+1 | x<-[1..], (length $ show $ fib $ x) == 1000 ]
 problem26 = fst $ maximumBy (comparing snd) $
             map (\x -> (x, cycleLength x)) [1..999]
   where
-    cycleLength d = cycleLength' 1 d []
+    cycleLength d = cycleLength' d 1 []
 
-    cycleLength' n d rems | m == 0    = 0
+    cycleLength' d n rems | r == 0    = 0
                           | isJust i  = (fromJust i) + 1
-                          | otherwise = cycleLength' (10*m) d (m:rems)
-      where m = n `mod` d
-            i = findIndex (==m) rems --Slow because of the findIndex call
+                          | otherwise = cycleLength' d (10*r) (r:rems)
+      where r = n `mod` d
+            i = elemIndex r rems
 
 problem27 = maximumBy (comparing snd) [(a*b, numPrimes a b) | a<-[-1000..1000], b<-(primesToLimit 1000)]
     where numPrimes a b = length $ takeWhile (\x -> Set.member x primes) $ map (\x -> x^2 + a*x + b) [0..]
