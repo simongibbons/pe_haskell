@@ -47,8 +47,7 @@ problem26 = fst $ maximumBy (comparing snd) $
   where
     cycleLength d = cycleLength' d 1 []
 
-    cycleLength' d n rems | r == 0    = 0
-                          | isJust i  = (fromJust i) + 1
+    cycleLength' d n rems | isJust i  = (fromJust i) + 1
                           | otherwise = cycleLength' d (10*r) (r:rems)
       where r = n `mod` d
             i = elemIndex r rems
