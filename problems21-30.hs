@@ -75,6 +75,10 @@ problem27 = maximumBy (comparing snd) [(a*b, numPrimes a b) | a<-[-1000..1000], 
     where numPrimes a b = length $ takeWhile (\x -> Set.member x primes) $ map (\x -> x^2 + a*x + b) [0..]
           primes = Set.fromDistinctAscList $ primesToLimit 1000000
 
+-- Find the Sum of the numbers on the diagonal of the 1001x1001 spiral
+problem28 = sum $ 1:( map nthTerm [1..500] )
+  where nthTerm n = 4*(2*n +1)^2 - 12*n
+
 problem29 = length $ nub $ [a^b| a<-[2..100], b<-[2..100] ]
 
 problem30 = sum $ [x | x<-[2..(6*9^5)], isFifthPowerSum x ]
