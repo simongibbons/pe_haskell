@@ -31,6 +31,25 @@ problem22 = do
     where
         sumName name = sum $ map (\x -> (ord x) - 64) name
 
+-- Find the sum of all the numbers which cannot be expressed as the sum of
+-- two abundant numbers.
+problem23 = sum $ filter (isNotSum) [1..limit]
+  where
+    limit = 28124
+
+    isNotSum x = l == []
+      where
+        l = filter (\x -> Set.member x abundSet) [x - a| a<-(takeWhile (<x) abund)]
+
+    divisors :: Int -> [Int]
+    divisors n = (1:) $ nub $ concat [ [x, div n x] | x <- [2..l], rem n x == 0 ]
+      where l = (floor.sqrt.fromIntegral) n
+
+    isAbund x =  (sum $ divisors x) > x
+
+    abund = filter isAbund [2..limit]
+    abundSet = Set.fromDistinctAscList abund
+
 problem24 = (sort $ permutations [0,1,2,3,4,5,6,7,8,9] ) !! 999999
 
 problem25 = head [x+1 | x<-[1..], (length $ show $ fib $ x) == 1000 ]
