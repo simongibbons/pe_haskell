@@ -31,10 +31,12 @@ problem95 = snd $ chains !! (fromJust (elemIndex maxChain chains))
     maxChain = maximum chains
 
     propDivMap = Map.fromAscList $
-                 map (\x -> (Just x, (divisorSum x) - x)) $ [1..10^6]
+                 map (\x -> (Just (fromIntegral x),
+                             fromIntegral((divisorSum x) - x))) $ [1..10^6]
 
     chain x = chain' [Just x]
 
+    chain' :: [Maybe Int] -> (Int, Maybe Int)
     chain' l | elem d l    = ((fromJust (elemIndex d l) + 1),
                               minimum (d:(takeWhile (/= d) l)))
              | isNothing d = (0, Nothing)
