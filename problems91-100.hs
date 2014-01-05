@@ -1,6 +1,9 @@
 import Data.Ord (comparing)
 import Data.List
 import Data.Char
+import Math.NumberTheory.Primes.Factorisation (divisorSum)
+import qualified Data.Map as Map
+import Data.Maybe (isNothing, fromJust)
 
 problem92 = length . filter (==89) . map endNo $ [1..9999999]
     where
@@ -20,6 +23,25 @@ problem92 = length . filter (==89) . map endNo $ [1..9999999]
         squareDig :: Int -> Int
         squareDig = sum . map ( (^2) . digitToInt ) . show
 
+-- Find the smallest element of an amicable chain with elements
+-- not exceeding 10^6
+problem95 = snd $ chains !! (fromJust (elemIndex maxChain chains))
+  where
+    chains = map chain [1..10^6]
+    maxChain = maximum chains
+
+    propDivMap = Map.fromAscList $
+                 map (\x -> (Just x, (divisorSum x) - x)) $ [1..10^6]
+
+    chain x = chain' [Just x]
+
+    chain' l | elem d l    = ((fromJust (elemIndex d l) + 1),
+                              minimum (d:(takeWhile (/= d) l)))
+             | isNothing d = (0, Nothing)
+             | otherwise   = chain' (d:l)
+        where d = Map.lookup (head l) propDivMap
+              i = elemIndex d l
+
 problem97 = (28433 * 2^7830457 + 1) `mod` (10^10)
 
 problem99 = do
@@ -32,3 +54,4 @@ problem99 = do
             createIntTuples :: String -> [(Double, Double)]
             createIntTuples input = map read $ lines input
             findIndex val x = head ( filter ( (==val) . (x!!) ) [0..((length x) - 1)] )
+
