@@ -5,6 +5,29 @@ import Data.Ord (comparing)
 import Data.Time.Calendar
 import Data.Time.Calendar.WeekDate
 import Math.NumberTheory.Primes.Factorisation (divisorCount)
+import Data.Array (Array, Ix, indices, bounds, listArray, (!), inRange)
+
+problem11 = do
+    inString <- readFile "data/p11.dat"
+    print $ maximum $ products $ parseInput inString
+  where
+    parseInput :: String -> Array (Int, Int) Int
+    parseInput = listArray ((1,1), (20,20)) . map read . words
+
+    directions = [ \(a,b) -> (a+1, b)
+                 , \(a,b) -> (a, b+1)
+                 , \(a,b) -> (a+1, b+1)
+                 , \(a,b) -> (a+1, b-1)
+                 ]
+
+    inArray :: Ix a => Array a b -> a -> Bool
+    inArray a = inRange (bounds a)
+
+    products :: Num a => Array (Int, Int) a -> [a]
+    products a = [ product xs | d  <- directions
+                              , p <- indices a
+                              , let is = filter (inArray a) $ take 4 $ iterate d p
+                              , let xs = map (a!) is ]
 
 problem12 = head $ dropWhile (\x -> divisorCount x < 500) $ map tri [1..]
   where tri n = n*(n+1) `div` 2
