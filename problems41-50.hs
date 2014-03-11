@@ -2,8 +2,9 @@ import Data.Char
 import qualified Data.Set as Set
 import Math.NumberTheory.Primes.Sieve (primes)
 import Math.NumberTheory.Primes.Factorisation (factorise)
-import Data.List (groupBy, sortBy, sort, group)
+import Data.List (groupBy, sortBy, sort, group, maximumBy)
 import Data.Ord (comparing)
+import qualified Data.Array as A
 
 primesToLimit :: Integer -> [Integer]
 primesToLimit m = 2 : sieve [3,5..m]
@@ -87,3 +88,23 @@ problem49 = concatMap findGroups $ primePerms
                 permList    = map (map snd) groupedList
 
         primeList = takeWhile (<10000) $ dropWhile (<1000) primes
+
+problem50 = snd $ maximumBy (comparing fst) $ consecSums
+  where
+    consecSums = [(n, p) | i <- [1..l],
+                           j <- [1..i],
+                           let p = (primeSumArray A.! i) - (primeSumArray A.! j ),
+                           isPrime p,
+                           let n = i - j
+                 ]
+
+    limit = 10^6
+    l = length primeSums
+
+    primesToLimit = takeWhile (<limit) primes
+
+    primeSet = Set.fromDistinctAscList primesToLimit
+    isPrime = (flip Set.member) primeSet
+
+    primeSums = takeWhile (<limit) $ scanl1 (+) primesToLimit
+    primeSumArray = A.listArray (1, l) primeSums
