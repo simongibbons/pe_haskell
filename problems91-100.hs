@@ -57,3 +57,7 @@ problem99 = do
             createIntTuples input = map read $ lines input
             findIndex val x = head ( filter ( (==val) . (x!!) ) [0..((length x) - 1)] )
 
+-- Uses the solution to the diophontine equation implied by the problem
+problem100 = findSolution 15 21
+  where findSolution b n | n >= 10^12 = b
+                         | otherwise  = findSolution (3*b + 2*n - 2) (4*b + 3*n -3)
