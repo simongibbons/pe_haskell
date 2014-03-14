@@ -1,11 +1,18 @@
 import Data.Char
 import Data.Ratio
 import qualified Data.Set as Set
+import Math.NumberTheory.Primes (totient)
 
 problem71 = Set.findMax . Set.deleteMax $ fracs
   where
     fracs =  Set.fromList $ map nearestFrac [1..(10^6)]
     nearestFrac d = (3*d `div` 7) % d
+
+-- Number of reduced proper fractions for denominator d <= 10^6
+-- This is the length of the Farey sequence.
+-- totient function is the number of numbers relitively prime to
+-- a certain number.
+problem72 = sum $ map totient [2..(10^6)]
 
 problem73 = sum [1 | d<-[4..12000],
                      let lower = (d `div` 3) + 1,
