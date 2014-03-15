@@ -23,8 +23,6 @@ problem101 = sum $ map firstIncorrectTerm [1..10]
     trueTerms :: [Ratio Int]
     trueTerms  = map (evalPoly trueCoeffs) [1..]
 
-
-
     gaussianReduce :: Matrix -> Matrix
     gaussianReduce matrix = fixlastrow $ foldl reduceRow matrix [0..length matrix-1] where
      --swaps element at position a with element at position b.
