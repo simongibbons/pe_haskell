@@ -46,6 +46,47 @@ problem95 = snd $ chains !! (fromJust (elemIndex maxChain chains))
 
 problem97 = (28433 * 2^7830457 + 1) `mod` (10^10)
 
+type Mapping = [Int]
+
+-- TODO despegettify this code and generalise the mapping function to allow
+-- for more than just strings with all distinct elements
+problem98 = do
+    fin <- readFile "data/p98.dat"
+    let allWords = read $ "[" ++ fin ++ "]" :: [String]
+    let anagrams = findAnagrams $ allWords
+    let mappings = map makeMapping anagrams
+    let trials  = map makeTrials mappings
+    print $ maximum $ resToInts $ concatMap matchOnFst $ zip mappings trials
+  where
+    findAnagrams :: (Eq a, Ord a) => [[a]] -> [([a],[a])]
+    findAnagrams l = concatMap makePairs $ map (map fst) $ groupedPairs
+      where
+        pairs = map (\x -> (x, sort x) ) l
+        groupedPairs = groupBy (\x y -> snd x == snd y) $ sortBy (comparing snd) pairs
+
+    makePairs :: [a] -> [(a,a)]
+    makePairs xs = [(y,ys) | y:xs' <- tails xs
+                           , ys <- xs']
+
+    makeMapping :: Eq a => ([a],[a]) -> Mapping
+    makeMapping ([],_) = []
+    makeMapping ((x:xs),y) = ((fromJust.elemIndex x) y) : makeMapping (xs,y)
+
+    squares :: Int -> [Int]
+    squares n = takeWhile (<10^n) $ dropWhile (<10^(n-1)) $ map (^2) [1..]
+
+    findSqAnagrams :: Int -> [(String, String)]
+    findSqAnagrams n = findAnagrams $ map show $ squares n
+
+    matchOnFst :: Eq a => (a, [(a,b)]) -> [b]
+    matchOnFst (e,l) = map snd $ filter (\x -> (fst x) == e) l
+
+    makeTrials m = map (\x -> (makeMapping x, (fst x, snd x)) ) $ findSqAnagrams (length m)
+
+    resToInts :: [(String,String)] -> [Int]
+    resToInts [] = []
+    resToInts ((a,b):xs) = [read a] ++ [read b] ++ resToInts xs
+
 problem99 = do
     inList <- readFile "data/p99.dat"
     let baseExpList = createIntTuples inList
