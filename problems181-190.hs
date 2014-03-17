@@ -1,3 +1,11 @@
+import Math.NumberTheory.Primes.Factorisation
+
+problem187 = length $ filter (==2) $ map numFactors [1..limit]
+  where
+    limit = 10^8
+    sieve = factorSieve limit
+    numFactors n = sum $ map snd $ sieveFactor sieve n
+
 problem188 = tetrate (10^8) 1777 1855
     where powerMod m b e = powm b e m 1 
 
