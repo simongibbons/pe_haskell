@@ -31,3 +31,9 @@ problem138 = sum $ map (\x -> fib (6*x + 2) `div` 2) $ [1..12]
     fib' 0 = 1
     fib' 1 = 1
     fib' n = fib (n-2) + fib (n-1)
+
+-- Maths magic turns this into Pell's equation.
+problem139 = sum $ map (\(x,y) -> limit `div` (x+y)) $ drop 1 $
+                   takeWhile (\(x,y) -> (x+y) < limit) $ iterate newSol (1,1)
+  where limit = 100000000
+        newSol (x,y) = ( 3*x + 4*y, 2*x + 3*y )
