@@ -20,3 +20,14 @@ problem137 = nugget 15
     fib' 0 = 1
     fib' 1 = 1
     fib' n = fib (n-2) + fib (n-1)
+
+-- Algebra gives that for  4 + 5*(L^2 - 1) to be a perfect square
+-- As above I brute force the first few terms and notice a pattern
+-- to obtain the general form of the solution.
+problem138 = sum $ map (\x -> fib (6*x + 2) `div` 2) $ [1..12]
+  where
+    fib :: Int -> Integer
+    fib = (map fib' [0 ..] !!)
+    fib' 0 = 1
+    fib' 1 = 1
+    fib' n = fib (n-2) + fib (n-1)
