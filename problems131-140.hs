@@ -1,3 +1,14 @@
+import Data.List (sort, group)
+
+problem135 = length $ filter (==10) $ map length $ group $ sort sols
+  where
+    limit = 1000000
+    sols = [ u*v | u <- [1..limit],
+                   v<-[1..(limit `div` u)],
+                   (u + v) `mod` 4 == 0,
+                   3*v > u,
+                   (3*v - u) `mod` 4  == 0 ]
+
 -- Find the 15th Fibonacci Golden Nugget
 -- Approach: The sum of the sequence is s(x) = x / (1 - x - x^2)
 --           inverting this gives x = (-(1+s) +/- sqrt(1 + 2s + 5s^2) ) / 2s
