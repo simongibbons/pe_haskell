@@ -1,4 +1,22 @@
 import Math.NumberTheory.Primes.Factorisation
+import Data.Ratio
+
+-- Terminates function could do with speeding up
+problem183 = sum $ map d $ [5..10000]
+  where
+    d n | terminates (maxDenominator n) = -n
+        | otherwise                     = n
+
+    terminates n | n == 1         = True
+                 | n `mod` 5 == 0 = terminates (n `div` 5)
+                 | n `mod` 2 == 0 = terminates (n `div` 2)
+                 | otherwise      = False
+
+    maxDenominator :: Integer -> Integer
+    maxDenominator n = (denominator.maximum)  [ (n%k)^k | k<-[trialK, trialK + 1] ]
+      where trialK = floor ((fromIntegral n) / e)
+
+    e = exp 1 :: Double
 
 problem187 = length $ filter (==2) $ map numFactors [1..limit]
   where
