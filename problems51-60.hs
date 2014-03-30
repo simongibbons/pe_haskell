@@ -132,7 +132,7 @@ problem57 = length $ filter (numGreaterThanDenom) $ map sqrt2Convergent [1..1000
               | otherwise = 2 *(denominator (n-1) ) + (denominator (n-2) )
 
 problem59 = do
-    inFile <- readFile "p59.dat"
+    inFile <- readFile "data/p59.dat"
     let ctext = read inFile :: [Int]
     let c1 = [ctext!!n | n<-[0,3..(length ctext - 1)]]
     let c2 = [ctext!!n | n<-[1,4..(length ctext - 1)]]
