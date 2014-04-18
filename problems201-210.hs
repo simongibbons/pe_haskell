@@ -1,6 +1,22 @@
 import Control.Monad (replicateM)
-import Data.List (group, sort, genericLength)
+import Data.List (group, sort, genericLength, nub)
+import Math.NumberTheory.Primes (primes)
 import Data.Ratio
+
+-- Uses a quick way to find the power of any prime in the factorisation of nCr
+-- (P231)
+problem203 = sum $ nub [nCr n r | n<-[0..50], r<-[0..n], isSquareFree n r]
+  where
+    nCr n r = (product [(n-r+1)..n]) `div` (product [1..r])
+
+    isSquareFree n r = null $ filter (>=2) $ exponents n r
+      where
+        exponents n r = map primeExponent pToCheck
+
+        pToCheck = takeWhile (<=n) primes
+
+        primeExponent p = sum $ map summand $ takeWhile (\j -> p^j <= n) [1..]
+          where summand j = (n `div` p^j) - (r `div` p^j) - ( (n-r) `div` p^j )
 
 problem205 = ratioToDouble $ probBeat (probs 9 [1..4]) (probs 6 [1..6])
   where
