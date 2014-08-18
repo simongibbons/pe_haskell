@@ -1,7 +1,7 @@
 import Data.Char
 import Data.Ratio
 import qualified Data.Set as Set
-import Math.NumberTheory.Primes (totient)
+import Math.NumberTheory.Primes (totient, primes)
 
 problem71 = Set.findMax . Set.deleteMax $ fracs
   where
@@ -41,19 +41,27 @@ problem74 = length $ filter (==60) $ map (loopLength) [3..999999]
           fac x = product [1..x]
 
 
-{-problem76 = partitions 100-}
-  {-where-}
-    {-partitions = (map partitions' [0..] !!)-}
-    {-partitions' n | n < 0 = 0-}
-                  {-| n == 0 = 1-}
-                  {-| otherwise = (sum pos) + (sum neg)-}
-      {-where pos = map kthTerm $ takeWhile (\x -> fst x <= n) $ pent_pos-}
-            {-neg = map kthTerm $ takeWhile (\x -> fst x <= n) $ pent_neg-}
+problem76 = partitions 100
+  where
+    partitions = (map partitions' [0..] !!)
+    partitions' n | n < 0 = 0
+                  | n == 0 = 1
+                  | otherwise = (sum pos) + (sum neg)
+      where pos = map kthTerm $ takeWhile (\x -> fst x <= n) $ pent_pos
+            neg = map kthTerm $ takeWhile (\x -> fst x <= n) $ pent_neg
 
-            {-kthTerm (p,k) = (-1)^(abs (k-1)) * partitions (n - p )-}
+            kthTerm (p,k) = (-1)^(abs (k-1)) * partitions (n - p )
 
-            {-pent_pos = map (\k -> (k*(3*k-1) `div` 2, k) ) [1..]-}
-            {-pent_neg = map (\k -> (k*(3*k-1) `div` 2, k) ) [-1,-2..]-}
+            pent_pos = map (\k -> (k*(3*k-1) `div` 2, k) ) [1..]
+            pent_neg = map (\k -> (k*(3*k-1) `div` 2, k) ) [-1,-2..]
+
+problem77 = head $ filter (\x -> numSumPrimes x > 5000) [2..]
+  where numSumPrimes :: Int -> Integer
+        numSumPrimes n = ways (takeWhile (<= n) primes') !! n
+          where primes' = map fromIntegral primes :: [Int]
+                ways [] = 1 : repeat 0
+                ways (x:xs) = y
+                  where y = zipWith (+) (ways xs) (replicate x 0 ++ y)
 
 {- Calculate the Partition function using Euler's recursion with
  - memoization. This is still pretty slow (takes around ~1h to run on
