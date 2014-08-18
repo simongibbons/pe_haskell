@@ -41,6 +41,20 @@ problem74 = length $ filter (==60) $ map (loopLength) [3..999999]
           fac x = product [1..x]
 
 
+problem76 = partitions 100
+  where
+    partitions = (map partitions' [0..] !!)
+    partitions' n | n < 0 = 0
+                  | n == 0 = 1
+                  | otherwise = (sum pos) + (sum neg)
+      where pos = map kthTerm $ takeWhile (\x -> fst x <= n) $ pent_pos
+            neg = map kthTerm $ takeWhile (\x -> fst x <= n) $ pent_neg
+
+            kthTerm (p,k) = (-1)^(abs (k-1)) * partitions (n - p )
+
+            pent_pos = map (\k -> (k*(3*k-1) `div` 2, k) ) [1..]
+            pent_neg = map (\k -> (k*(3*k-1) `div` 2, k) ) [-1,-2..]
+
 {- Calculate the Partition function using Euler's recursion with
  - memoization. This is still pretty slow (takes around ~1h to run on
  - Core i5 Macbook). The issue is probably because I'm using a list
