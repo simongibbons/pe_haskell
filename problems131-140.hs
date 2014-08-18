@@ -1,4 +1,12 @@
 import Data.List (sort, group)
+import Math.NumberTheory.Primes.Testing (isPrime)
+
+{- n^3 + p*n^2 can only be a cube if n and p + n are cubes
+ - Therefore p must be the difference of two cubes.
+ - Only the difference of two consecutive cubes can be prime.
+ -}
+problem131 = length $ filter isPrime $ takeWhile (<10^6) $
+             map (\x -> (x+1)^3 - x^3) [1..]
 
 problem135 = length $ filter (==10) $ map length $ group $ sort sols
   where
