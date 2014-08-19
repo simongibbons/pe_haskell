@@ -37,6 +37,8 @@ problem188 = tetrate (10^8) 1777 1855
 
 -- Solution derived using Lagrange Multipliers
 problem190 = sum [pm m | m <- [2..15] ]
-  where pm m = floor $ product [(x1*i)**i | i <- [1..m] ]
-          where x1 = ( 2 / (m+1) )
+  where pm :: Integer -> Integer
+        pm m = (numerator p) `div` (denominator p)
+          where x1 = ( 2 % (m+1) )
+                p  = product [(x1*(i%1))^i | i <- [1..m] ]
 
