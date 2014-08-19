@@ -3,6 +3,7 @@ import Data.List (sort, group, splitAt, elemIndex, maximumBy)
 import Data.Bits (xor)
 import Data.Ord (comparing)
 import Data.Maybe (fromJust)
+import Math.NumberTheory.Primes (isPrime)
 
 problem52 = head $ [x | x<-testNos, sameDig x (2*x), sameDig x (3*x), sameDig x (4*x),
                                     sameDig x (5*x), sameDig x (6*x)]
@@ -130,6 +131,12 @@ problem57 = length $ filter (numGreaterThanDenom) $ map sqrt2Convergent [1..1000
               | n == 0    = 1
               | n == 1    = 0
               | otherwise = 2 *(denominator (n-1) ) + (denominator (n-2) )
+
+problem58 = result $ dropWhile tooBig $ drop 2 $ scanl primeRatio (0,0) diag
+  where diag = 1:3:5:7:zipWith (+) diag [8,10..]
+        primeRatio (n,d) num = (if d `mod` 4 /= 0 && isPrime num then n+1 else n,d+1)
+        tooBig (n,d) = n*10 >= d
+        result ((_,d):_) = (d+2) `div` 4 * 2 + 1
 
 problem59 = do
     inFile <- readFile "data/p59.dat"
