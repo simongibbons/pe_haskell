@@ -5,6 +5,17 @@ import Math.NumberTheory.Primes.Factorisation (divisorSum)
 import qualified Data.Map as Map
 import Data.Maybe (isNothing, fromJust)
 
+-- Lazy BruteForce checking all possible triangles
+problem91 = length $
+            [1 | x1 <- [0..l], x2 <- [0..l], y1 <- [0..l], y2 <- [0..l],
+                 let p = (x1,y1), let q = (x2, y2),
+                 (y2 - x2) < (y1 - x1),
+                 p /= q, p /= (0,0), q /= (0,0),
+                 isRightTriangle p q ]
+  where l = 50
+        isRightTriangle (x1, y1) (x2, y2) = (s!!0) + (s!!1) == (s!!2)
+          where s = sort $ [ x1^2 + y1^2, x2^2 + y2^2, (x1-x2)^2 + (y1-y2)^2]
+
 problem92 = length . filter (==89) . map endNo $ [1..9999999]
     where
         endNo :: Int -> Int
