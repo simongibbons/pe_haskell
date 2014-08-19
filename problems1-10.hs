@@ -1,17 +1,8 @@
 import Data.Char
+import Math.NumberTheory.Primes (primes)
 
---Effectively Trial Division. This should be improved as solutions for 3, 7 and
---10 are pretty slow.
-primesUnlimited = sieve [2..]
-    where
-        sieve (p:xs) = p : sieve [x | x <- xs, rem x p /= 0]
-
-primesToLimit :: Integer -> [Integer]
-primesToLimit m = 2 : sieve [3,5..m]
-  where
-    sieve (p:xs)
-      | p*p > m = p : xs
-      | True    = p : sieve [x | x <- xs, rem x p /= 0]
+primesUnlimited = primes
+primesToLimit m = takeWhile (<=m) primes
 
 problem1 = sum [x| x<-[1..999], x `mod` 3 == 0 || x `mod` 5 == 0]
 
