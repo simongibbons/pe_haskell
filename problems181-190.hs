@@ -34,3 +34,9 @@ problem188 = tetrate (10^8) 1777 1855
 
           tetrate m a 1 = a
           tetrate m a k = powerMod m a (tetrate m a (k-1))
+
+-- Solution derived using Lagrange Multipliers
+problem190 = sum [pm m | m <- [2..15] ]
+  where pm m = floor $ product [(x1*i)**i | i <- [1..m] ]
+          where x1 = ( 2 / (m+1) )
+
