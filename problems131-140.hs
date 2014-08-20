@@ -56,3 +56,25 @@ problem139 = sum $ map (\(x,y) -> limit `div` (x+y)) $ drop 1 $
                    takeWhile (\(x,y) -> (x+y) < limit) $ iterate newSol (1,1)
   where limit = 100000000
         newSol (x,y) = ( 3*x + 4*y, 2*x + 3*y )
+
+-- 1) Derive generating function for the series as
+--     Ag = (x + 3x^2 ) / (1 - x - x^2 )
+-- 2) This takes integer values Ag = n for rational x
+--    when 5n^2 + 14n + 1 is a perfect square.
+-- 3) This can be written in the form of a Pell equation with
+--    a^2 - 5p^2 == 44
+--    with n = (a - 7) / 5
+--    This solutions for a are found by the recurrance
+--    a i = 3 * a (i-2) - a (i-4)
+-- 4) When (a - 7) / 5 is an integer, this forms a golden nugget.
+problem140 = sum $ take 30 $
+             map (\n -> (n-7) `div` 5 ) $
+             filter (\n -> (n-7) `mod` 5 == 0) $
+             map a [1..]
+  where
+    a n = (map a' [0..]) !! n
+    a' 0 = 7
+    a' 1 = 8
+    a' 2 = 13
+    a' 3 = 17
+    a' n = 3 * a (n-2) - a (n-4)
