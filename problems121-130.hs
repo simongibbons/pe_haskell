@@ -1,5 +1,5 @@
 import Math.NumberTheory.Primes (factorise, primes)
-import Data.List (sortBy)
+import Data.List (sortBy, nub)
 import Data.Ord (comparing)
 
 --Could probably memoize the recursion for calculating ways but it seems
@@ -32,3 +32,7 @@ problem123 = head $ dropWhile (\x -> fst x < 10^10) $
 problem124 = ( sortBy (comparing snd) rads ) !! 9999
   where rads = map (\x -> (x, radical x) ) [1..100000]
         radical n = product $ map fst (factorise n)
+
+problem125 = sum $ nub $ filter isPal $ concatMap sumSqNos [1..7071]
+  where isPal x = show x == (reverse.show) x
+        sumSqNos n = takeWhile (<10^8) $ tail $ scanl1 (+) $ map (^2) [n..]
