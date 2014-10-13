@@ -98,7 +98,7 @@ problem104 = snd . head . filter (\x -> isLastPan (fst x) && isFirstPan (fst x) 
           isLastPan  n = (sort . show $ n `mod` 10^9) == "123456789"
           isFirstPan n = (sort . (take 9) $ show n ) == "123456789"
 
--- The number of solutions is (numDivisors (n^2)) / 2 + 1
+-- The number of solutions is (numDivisors (n^2) + 1) / 2
 problem108 = fst . head $
              dropWhile (\(_,ns) -> ns < 1000) $
              map (\x -> (x, numSolutions x)) [1..]
