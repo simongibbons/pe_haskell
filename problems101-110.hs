@@ -1,5 +1,6 @@
 import Data.List (sort)
 import Data.Ratio
+import Math.NumberTheory.Primes (factorise)
 
 type Row = [ Ratio Int ]
 type Matrix = [ Row ]
@@ -101,5 +102,5 @@ problem104 = snd . head . filter (\x -> isLastPan (fst x) && isFirstPan (fst x) 
 problem108 = fst . head $
              dropWhile (\(_,ns) -> ns < 1000) $
              map (\x -> (x, numSolutions x)) [1..]
-  where numSolutions n =  ((divCountSq n) `div` 2) + 1
+  where numSolutions n =  ((divCountSq n) + 1) `div` 2
         divCountSq n = product $ map (\(_,a) -> 2*a + 1) $ factorise n
