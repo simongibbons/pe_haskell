@@ -17,6 +17,16 @@ problem135 = length $ filter (==10) $ map length $ group $ sort sols
                    3*v > u,
                    (3*v - u) `mod` 4  == 0 ]
 
+-- This is very slow and uses a hell of a lot of memory -- should investigate
+-- using mutable arrays to do the counting as we go along.
+problem136 = length $ filter (==1) $ map length $ group $ sort $ solutions
+  where solutions = [u*v | u <- [1..limit],
+                           v <- [1..(limit `div` u)],
+                           3*u > v,
+                           (u + v) `mod` 4 == 0,
+                           (3*u - v) `mod` 4 == 0 ]
+        limit = 50000000
+
 -- Find the 15th Fibonacci Golden Nugget
 -- Approach: The sum of the sequence is s(x) = x / (1 - x - x^2)
 --           inverting this gives x = (-(1+s) +/- sqrt(1 + 2s + 5s^2) ) / 2s
