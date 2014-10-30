@@ -29,3 +29,11 @@ problem205 = ratioToDouble $ probBeat (probs 9 [1..4]) (probs 6 [1..6])
 
     ratioToDouble :: Integral a => Ratio a -> Double
     ratioToDouble x = ((fromIntegral.numerator) x) / ((fromIntegral.denominator) x)
+
+problem207 = head $ dropWhile (\(_,r) -> r >= (1%12345)) pMs
+  where pMs = [(m, numPerfectLT m % n) | (m,n) <- zip (tail partitions) [2..]]
+        
+        numPerfectLT m = fromIntegral $ length (takeWhile (<=m) perfectPartitions)
+
+        perfectPartitions = [4^t - 2^t | t <- [1..] ]
+        partitions = [m^2 - m | m <- [2..]]
