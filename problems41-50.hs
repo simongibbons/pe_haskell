@@ -2,7 +2,7 @@ import Data.Char
 import qualified Data.Set as Set
 import Math.NumberTheory.Primes.Sieve (primes)
 import Math.NumberTheory.Primes.Factorisation (factorise)
-import Data.List (groupBy, sortBy, sort, group, maximumBy)
+import Data.List (groupBy, sortBy, sort, group, maximumBy, permutations)
 import Data.Ord (comparing)
 import qualified Data.Array as A
 
@@ -37,6 +37,20 @@ problem42 = do
     where
         sumWord word = sum $ map (\x -> (ord x) - 64) word
         triangularToN n = takeWhile (<n) $ map (\x -> x*(x+1) `div` 2) [1..]
+
+problem43 :: Int
+problem43 = sum $ map read $ filter hasDivProperty $ permutations "1234567890"
+  where hasDivProperty :: String -> Bool
+        hasDivProperty s = and $ zipWith (isDiv) divs (splitNumber s)
+
+        divs = [1,2,3,5,7,11,13,17] :: [Int]
+
+        isDiv :: Int -> String -> Bool
+        isDiv d s = (read s :: Int) `mod` d == 0
+
+        splitNumber :: String -> [String]
+        splitNumber p@(_:xs) | length p < 3 = []
+                             | otherwise    = (take 3 p) : splitNumber xs
 
 problem44 = head [x-y | x<-pents, y<-takeWhile (<x) pents, isPent (x+y), isPent (x-y)]
     where isPent n =
