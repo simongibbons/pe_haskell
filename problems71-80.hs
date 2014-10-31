@@ -1,5 +1,6 @@
 import Data.Char
 import Data.Ratio
+import Data.List (group, sort)
 import qualified Data.Set as Set
 import Math.NumberTheory.Primes (totient, primes)
 
@@ -40,6 +41,16 @@ problem74 = length $ filter (==60) $ map (loopLength) [3..999999]
 
           fac x = product [1..x]
 
+problem75 = sum $ filter (==1) $ map length $ group $ sort $ allPerimiters
+  where allPerimiters = concatMap (\x -> [x,(2*x)..limit]) primativePerimiters
+
+        primativePerimiters = [2*m^2 + 2*m*n | m <-[1..mlimit], n<-[1..(m-1)],
+                                              (m-n) `mod` 2 == 1,
+                                              gcd m n == 1 ]
+
+        mlimit = ( fromIntegral . floor . sqrt ) (fromIntegral limit)
+
+        limit = 1500000
 
 problem76 = partitions 100
   where
