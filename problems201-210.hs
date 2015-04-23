@@ -30,6 +30,17 @@ problem205 = ratioToDouble $ probBeat (probs 9 [1..4]) (probs 6 [1..6])
     ratioToDouble :: Integral a => Ratio a -> Double
     ratioToDouble x = ((fromIntegral.numerator) x) / ((fromIntegral.denominator) x)
 
+-- Any square ending in 0 must also end in 00, we can form a lower bound
+-- on the possible square root and brute force from there.... not a fast
+-- or pretty solution though!
+problem206 = (*10) $ head [ x | x <- [100000000..], hasProperty (x^2) ]
+  where every :: Int -> [a] -> [a]
+        every _ [] = []
+        every n (x:xs) = x : every n (drop (n-1) xs)
+
+        hasProperty :: Integer -> Bool
+        hasProperty n = ((every 2 . show) n) == ['1'..'9']
+
 problem207 = head $ dropWhile (\(_,r) -> r >= (1%12345)) pMs
   where pMs = [(m, numPerfectLT m % n) | (m,n) <- zip (tail partitions) [2..]]
         
