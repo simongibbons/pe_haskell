@@ -18,7 +18,7 @@ problem387 = sum strongRTHarshadPrimes
     rightTruncHarshad n = [10*x + i | x <- rightTruncHarshad (n-1), i <- [0..9], isHarshad (10*x + i)]
 
     rtHarshads :: [Integer]
-    rtHarshads = foldr (\x a -> rightTruncHarshad x ++ a) [] [1..13]
+    rtHarshads = concatMap rightTruncHarshad [1..13]
 
     strongRTHarshads :: [Integer]
     strongRTHarshads = filter (\x -> isPrime (x `div` (digSum x))) rtHarshads
