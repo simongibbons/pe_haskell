@@ -24,5 +24,5 @@ problem387 = sum strongRTHarshadPrimes
     strongRTHarshads = filter (\x -> isPrime (x `div` (digSum x))) rtHarshads
 
     strongRTHarshadPrimes :: [Integer]
-    strongRTHarshadPrimes = [10*x + i | x <- strongRTHarshads, i <- [0..9], isPrime (10*x + i)]
+    strongRTHarshadPrimes = [10*x + i | x <- strongRTHarshads, i <- [1,3,7,9], isPrime (10*x + i)]
 
