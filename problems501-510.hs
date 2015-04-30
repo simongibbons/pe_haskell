@@ -11,4 +11,3 @@ problem504 = length [1 | a <- coords, b <- coords, c <- coords, d <- coords,
                 -- Number of points on the boundary
                 boundPoints = (gcd a d) + (gcd a b) + (gcd c b) + (gcd c d)
 
-main = print problem504
