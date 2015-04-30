@@ -1,5 +1,3 @@
-import Math.NumberTheory.Powers.Squares (isSquare)
-
 problem504 = length [1 | a <- coords, b <- coords, c <- coords, d <- coords,
                          isSquare $ latPoints a b c d ]
   where coords = [1..100]
@@ -10,4 +8,6 @@ problem504 = length [1 | a <- coords, b <- coords, c <- coords, d <- coords,
                 area2 = (a+c)*(b+d)
                 -- Number of points on the boundary
                 boundPoints = (gcd a d) + (gcd a b) + (gcd c b) + (gcd c d)
+
+        isSquare x = (floor . sqrt . fromIntegral $ x)^2 == x
 
