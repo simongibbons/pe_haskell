@@ -1,4 +1,25 @@
-import Math.NumberTheory.Primes (isPrime)
+import Math.NumberTheory.Primes (isPrime, primeList, primeSieve)
+import Math.NumberTheory.Moduli (powerModInteger)
+
+problem381 = sum . map s . drop 2 . primeList . primeSieve $ 10^8
+  where
+    s :: Integer -> Integer
+    s p = (sum . map (factorialMod p) $ [1..5] ) `mod` p
+
+    -- Calcualtes the modular inverse for a **prime** modulus
+    -- Uses Euler's thm. Which states that:
+    --    a^(totient m) == 1 (mod m)
+    -- and the fact that totient p = p - 1
+    -- for prime p
+    modInvPrime :: Integer -> Integer -> Integer
+    modInvPrime a p = powerModInteger a (p - 2) p
+
+    -- Calculates (p - k)! (mod p)
+    -- Uses the fact that (p-1)! == -1 (mod p)
+    -- and a fast modular inverse for prime moduli
+    factorialMod :: Integer -> Integer -> Integer
+    factorialMod p k = (-1 * (modInvPrime (product [p-k+1..p-1]) p)) `mod` p
+
 
 -- 1) generate all right truncatable Harshad numbers
 -- 2) find all strong right truncatable Harshads by filtering that list
