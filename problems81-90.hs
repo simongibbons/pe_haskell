@@ -10,6 +10,18 @@ primesToLimit m = 2 : sieve [3,5..m]
       | p*p > m = p : xs
       | True    = p : sieve [x | x <- xs, rem x p /= 0]
 
+problem81 = readFile "data/p81.txt" >>= print . minSum . map parse . lines
+  where
+    parse :: String -> [Int]
+    parse = read . ('[':) . (++ "]")
+
+    minSum :: [[Int]] -> Int
+    minSum (x:xs) = last $ (foldl nextLine) (scanl1 (+) x) xs
+
+    nextLine :: [Int] -> [Int] -> [Int]
+    nextLine (p:pl) (n:nl) = scanl nextCell (p+n) (zip pl nl)
+        where nextCell acc (prev, new) = new + min prev acc
+
 -- Find the Area of the Rectangle with the number of rectangles closet
 -- to 2 million
 problem85 = minimumBy (comparing snd)
