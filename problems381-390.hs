@@ -6,7 +6,7 @@ problem381 = sum . map s . drop 2 . primeList . primeSieve $ 10^8
     s :: Integer -> Integer
     s p = (sum . map (factorialMod p) $ [1..5] ) `mod` p
 
-    -- Calcualtes the modular inverse for a **prime** modulus
+    -- Calculates the modular inverse for a **prime** modulus
     -- Uses Euler's thm. Which states that:
     --    a^(totient m) == 1 (mod m)
     -- and the fact that totient p = p - 1
