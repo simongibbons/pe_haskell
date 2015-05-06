@@ -1,6 +1,17 @@
 import Data.List (sort, elemIndex)
 import Data.Maybe (fromJust)
 
+problem113 = nonBouncy 100
+ where
+    nonBouncy n  = (increasing n) + (decreasing n) - (doubles n)
+    increasing n = (choose (n + 9) 9) - 1
+    decreasing n = (choose (n + 10) 10) - 1 - n
+    doubles n    = 9*n
+
+    choose n k = (factorial n) `div` ((factorial k) * (factorial (n-k)))
+    factorial n = product [1..n]
+
+
 problem119 = (sort [a^b| a<-[2..100], b<-[2..9], sumDig (a^b) == a])!!29
   where
     sumDig :: Int -> Int
