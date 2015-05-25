@@ -19,15 +19,18 @@ problem345 = do
 
 problem347 = s 10000000
   where
+    m :: Integer -> Integer -> Integer -> Integer
+    m p q n | p*q > n = 0
+            | otherwise = maximum .
+                          takeWhile (\x -> (x `mod` p == 0) && (x <= n)) .
+                          iterate next $ p^k*q
+       where next :: Integer -> Integer
+             next x = last . takeWhile (<=n) . iterate (*q) $ x `div` p
+             k = floor $ (logInt n - logInt q) / logInt p
+             logInt = log . fromIntegral
+
     s :: Integer -> Integer
     s n = sum $ s' n (takeWhile (<n `div` 2) primes)
       where s' n [] = []
             s' n (p:ps) = (sum . takeWhile (>0) $ [m p q n | q <- ps]) : s' n ps
-
-    m :: Integer -> Integer -> Integer -> Integer
-    m p q n | p*q > n = 0
-            | otherwise = maximum . takeWhile (\x -> (x `mod` p == 0) && (x <= n)) . iterate next $ p^k*q
-       where next x = last $ takeWhile (<=n) $ iterate (*q) (x `div` p)
-             k = floor ( ((log . fromIntegral) n - (log . fromIntegral) q) / (log . fromIntegral) p)
-
 
