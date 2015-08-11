@@ -1,7 +1,9 @@
 import qualified Data.Map as M
 import qualified Data.Set as Set
 import Data.Ord (comparing)
-import Data.List (minimumBy)
+import Data.List (minimumBy, findIndex)
+import Data.Maybe (fromJust)
+import Math.NumberTheory.Powers.Squares (isSquare)
 
 primesToLimit :: Integer -> [Integer]
 primesToLimit m = 2 : sieve [3,5..m]
@@ -29,6 +31,10 @@ problem85 = minimumBy (comparing snd)
   where
     tri n = n*(n+1) `div` 2 -- (n-1) choose 2
     numRecs n m = (tri n) * (tri m)
+
+problem86 = fromJust . findIndex (>10^6) . scanl (+) 0 . map cube $ [1..]
+  where cube m = sum [(a `div` 2) - x | a <- [1..2*m], isSquare (a^2 + m^2),
+                      let x = if a > m then (a - m - 1) else 0]
 
 -- Find the number of numbers expressible as the sum of a prime square, cube
 -- and fourth power below 50 million.
