@@ -1,4 +1,4 @@
-import Data.List (sort, groupBy, sortBy, minimumBy, maximumBy)
+import Data.List (sort, groupBy, sortBy, minimumBy, maximumBy, permutations)
 import Math.NumberTheory.Primes.Factorisation (totient)
 import Data.Ord (comparing)
 import Data.Ratio
@@ -96,6 +96,26 @@ problem67 = do
         maxPathSum = head . foldr1 step
         step [] [z] = [z]
         step (x:xs) (y:z:zs) = x + max y z : step xs (z:zs)
+
+problem68 = maximumBy (comparing stringToInteger) . map makeString $ candidates
+  where
+    makeString p = concat [show (p!!i) | i <- [0,1,2,3,2,4,5,4,6,7,6,8,9,8,1]]
+
+    candidates = filter isCandidate . permutations $ [1..10]
+
+    isCandidate p = and [tenInOuter p, zeroSmallest p, sameSum p]
+      where
+        tenInOuter p = and [ p !! i /= 10 | i <- [1,2,4,6,8] ]
+
+        zeroSmallest p = and [ p !! 0 < p !! i | i <- [3,5,7,9] ]
+
+        sameSum p = and [row == i | i <- rows]
+          where
+            rowSum idxs = sum [p!!i | i <- idxs]
+            (row:rows) = map rowSum [[0,1,2], [3,2,4], [5,4,6], [7,6,8], [9,8,1]]
+
+    stringToInteger :: String -> Integer
+    stringToInteger = read
 
 problem69 = snd $ maximumBy (comparing fst) $ map (\x -> (f x, x)) [1..1000000]
   where
